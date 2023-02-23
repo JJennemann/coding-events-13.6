@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,27 @@ public class EventController {
                 EventData.remove(id);
             }
         }
+        return "redirect:";
+    }
+
+    @GetMapping("edit/{eventId}")
+    public String displayEditForm(Model model, @PathVariable int eventId){
+        Event eventToEdit = EventData.getById(eventId);
+        model.addAttribute("event", eventToEdit);
+        String title = "Edit Event " + eventToEdit.getName() + " (id=" + eventToEdit.getId() + ")";
+        model.addAttribute("title", title);
+        model.addAttribute("types", EventType.values());
+        return "events/edit";
+    }
+
+    @PostMapping("edit")
+    public String processEditForm(int id, String name, String description,
+                                  String contactEmail, EventType type){
+        Event eventToEdit = EventData.getById(id);
+        eventToEdit.setName(name);
+        eventToEdit.setDescription(description);
+        eventToEdit.setContactEmail(contactEmail);
+        eventToEdit.setType(type);
         return "redirect:";
     }
 
