@@ -5,3 +5,8 @@ body{
 .error{
     color:red;
 }
+
+.form-group{
+    padding: 14px;
+    }
+
